@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -24,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor;
@@ -53,7 +55,8 @@ class SearchControllerTest {
 	private JwtDecoder jwtDecoder;
 
 	private static JwtRequestPostProcessor token(String... authorities) {
-		return jwt().authorities(java.util.Arrays.stream(authorities).map(SimpleGrantedAuthority::new).toList());
+		List<GrantedAuthority> granted = Arrays.stream(authorities).<GrantedAuthority>map(SimpleGrantedAuthority::new).toList();
+		return jwt().authorities(granted);
 	}
 
 	@Test
