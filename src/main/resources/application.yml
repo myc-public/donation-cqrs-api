@@ -1,0 +1,39 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    # En dur : pas de filtrage Maven @...@ (craft-parent n'herite pas de spring-boot-starter-parent)
+    name: donation-cqrs-api
+
+myc:
+  oidc:
+    # Realm myc-internal uniquement : back-office (ADR 0036). Audience reprise de donation-api, realm inchange
+    issuer-uri: ${OIDC_INTERNAL_ISSUER_URI:http://localhost:8180/realms/myc-internal}
+    jwk-set-uri: ${OIDC_INTERNAL_JWK_SET_URI:http://localhost:8180/realms/myc-internal/protocol/openid-connect/certs}
+    audience: donation-api
+  elasticsearch:
+    url: ${ELASTICSEARCH_URL:http://localhost:9200}
+    # Compte en lecture sur les alias : pas de valeur par defaut pour le mot de passe
+    username: ${ELASTICSEARCH_USERNAME:eda-read}
+    password: ${ELASTICSEARCH_PASSWORD}
+
+logging:
+  level:
+    root: INFO
+    ma.myc: INFO
+
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  # Elasticsearch absent : la lecture repond 503, le service reste vivant
+  health:
+    elasticsearch:
+      enabled: false
