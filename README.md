@@ -41,3 +41,4 @@ mvn verify     # tests unitaires et MockMvc (sécurité, pagination, erreurs), s
 | `OIDC_INTERNAL_ISSUER_URI`, `OIDC_INTERNAL_JWK_SET_URI` | realm `myc-internal` |
 | `ELASTICSEARCH_URL`, `ELASTICSEARCH_USERNAME` | Elasticsearch, compte `eda-read` |
 | `ELASTICSEARCH_PASSWORD` | mot de passe du compte, sans valeur par défaut |
+| `OTLP_EXPORT_ENABLED`, `OTLP_ENDPOINT` | export OTLP des métriques et des traces, désactivé par défaut |
